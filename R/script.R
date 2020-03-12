@@ -1,6 +1,6 @@
 # Dit is een test
 
-library(mongolite)
+
 
 
 # Dit duurt even
@@ -20,13 +20,6 @@ parking <- read.csv("almere_parking.csv")
 
 
 
-library(randomcoloR)
-
-library(ggplot2)
-library(plotly)
-
-
-library(lubridate)
 
 park <- arrange(parking, updated) %>%
   filter(!label %in% c("P+R","P4") ) %>%
@@ -76,8 +69,7 @@ ggplot(park_gr, aes(x = updated, y=parked, col=label)) +
 park_sub2 <- filter(park_gr, label == "P11")
 park_sub2$Date <- as.Date(park_sub2$updated)
 
-library(dplyr)
-library(lubridate)
+
 park_sub2 <- group_by(park_sub2, wday(Date, label = TRUE), hour(updated))
 
 p11 <- summarize(park_sub2, parked = mean(parked, na.rm=TRUE))
@@ -138,10 +130,9 @@ filter(park_gr_ave, label == "P11") %>%
 
 
 # Kaart
-library(readxl)
+
 k <- read_excel("park.xlsx")
 
-library(leaflet)
 leaflet(k) %>%
   addMarkers(~lon, ~lat, label = paste(k$label, k$naam)) %>%
   addTiles()
@@ -149,7 +140,7 @@ leaflet(k) %>%
 
 
 # Samenvatting.
-library(lubridate)
+
 
 # Gemiddeld aantal auto's geparkeerd rond 12 uur op zaterdag.
 sat_park <- group_by(park, label) %>%
@@ -183,13 +174,12 @@ park_hr <- group_by(park_gr, Date, label, hour) %>%
 
 write.csv(park_hr, "park_hourly.csv")
 
-library(randomForest)
+
 model1 <- randomForest(parked ~ hour + label + weekday, data = park_hr)
 
 # summary
 model1
 
-library(randomForestExplainer)
 plot_predict_interaction(model1, park_hr, "weekday", "hour")
 
 
