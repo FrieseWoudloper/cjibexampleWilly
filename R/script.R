@@ -1,18 +1,15 @@
-# Dit is een test
+inlezen <- function(){
+  read.csv(.conf$inputfile)
+}
 
-# Dit duurt even
-db <- mongo(collection = "almereparkingjson",
-            url = sprintf(
-              "mongodb://%s:%s@%s/%s",
-              .conf$user, 
-              "playpass123", 
-              "ds229186.mlab.com:29186",
-              "almereparking"))
+fn <- "cache/parking_data.rds"
 
-parking <- db$find()
-
-# Of lees de CSV van ooit
-parking <- read.csv("almere_parking.csv")
+if(!file.exists(fn)){
+  parking <- inlezen(.conf$inputfile)
+  saveRDS(parking, fn)
+} else {
+  parking <- readRDS(fn)
+}
 
 park <- arrange(parking, updated) %>%
   filter(!label %in% c("P+R","P4") ) %>%
