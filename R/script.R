@@ -5,7 +5,7 @@ inlezen <- function(){
 fn <- "cache/parking_data.rds"
 
 if(!file.exists(fn)){
-  parking <- inlezen(.conf$inputfile)
+  parking <- inlezen()
   saveRDS(parking, fn)
 } else {
   parking <- readRDS(fn)

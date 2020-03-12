@@ -1,4 +1,4 @@
 db:
   user: Remko
 
-inputfile: almere_parking.csv
+inputfile: data/almere_parking.csv
