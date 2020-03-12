@@ -1,3 +1,4 @@
-# Dit is een nieuw script
+# Nu gaan we conflicten veroorzaken.
 
 summary(Loblolly)
+hd <- head(Loblolly)
