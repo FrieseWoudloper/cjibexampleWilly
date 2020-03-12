@@ -1,12 +1,13 @@
-# Functie die Almere parkeren data uit cache haalt of hierin opslaat, indien gewenst
-lees_data <- function(bestand, cache = FALSE, rds = NULL) {
+# Functie die data uit cache haalt of hierin opslaat, indien gewenst.
+# Indien er geen cache bestaat, wordt een .csv ingelezen.
+lees_data <- function(bestand, cache = FALSE, rds) {
   if (cache) {
     # Wens is uit cache te laden en op te slaan
-    if (!is.null(rds) & file.exists(rds)) {
+    if (!missing(rds) & file.exists(rds)) {
       # RDS bestaat, laad deze in en geef terug
       return(readRDS(rds))
     }
-    if (is.null(rds) & !is.null(bestand)) {
+    if (missing(rds) & !missing(bestand)) {
       # Waarschijnlijk is rds als bestand opgenomen, lees deze in en geef terug
       return(readRDS(bestand))
     }
@@ -16,7 +17,7 @@ lees_data <- function(bestand, cache = FALSE, rds = NULL) {
   
   # Sla op als cache gewenst is
   if (cache) {
-    if (is.null(rds)) {
+    if (missing(rds)) {
       saveRDS(data, paste(bestand, ".rds"))
     } else {
       saveRDS(data, rds)
