@@ -1,31 +1,23 @@
 # Dit is een test
 
-
-
-
 # Dit duurt even
 db <- mongo(collection = "almereparkingjson",
             url = sprintf(
               "mongodb://%s:%s@%s/%s",
-              "remko", 
+              .conf$user, 
               "playpass123", 
               "ds229186.mlab.com:29186",
               "almereparking"))
 
 parking <- db$find()
 
-
 # Of lees de CSV van ooit
 parking <- read.csv("almere_parking.csv")
-
-
-
 
 park <- arrange(parking, updated) %>%
   filter(!label %in% c("P+R","P4") ) %>%
   mutate(label = as.factor(label),
          updated = as.POSIXct(updated, tz = "UTC"))
-
 
 # Plot van alles
 park_sub <- filter(park, 
